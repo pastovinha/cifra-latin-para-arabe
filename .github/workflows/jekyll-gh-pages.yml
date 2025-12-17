@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔤 Conversor de Cifra Latino-Árabe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        h1 {
+            color: #2d3436;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #636e72;
+            font-size: 1.1em;
+        }
+        
+        .converter {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        label {
+            font-weight: bold;
+            color: #2d3436;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            resize: vertical;
+            min-height: 120px;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-cripto {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-descripto {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-limpar {
+            background: #dfe6e9;
+            color: #2d3436;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .result {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .result h3 {
+            color: #2d3436;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        #resultado {
+            font-size: 18px;
+            line-height: 1.6;
+            word-wrap: break-word;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+        }
+        
+        .arabic-text {
+            font-family: 'Segoe UI', 'Arial', 'Arabic Typesetting', sans-serif;
+            font-size: 24px;
+            direction: rtl;
+            text-align: right;
+        }
+        
+        .info {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        
+        .cifra-table {
+            margin-top: 30px;
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        th {
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔤 Conversor de Cifra Latino-Árabe</h1>
+            <p class="subtitle">Converta textos entre alfabeto latino e sua cifra árabe personalizada</p>
+        </header>
+        
+        <div class="converter">
+            <div class="input-group">
+                <label for="textoInput">📝 Digite seu texto:</label>
+                <textarea id="textoInput" placeholder="Digite aqui o texto para converter..."></textarea>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn-cripto" onclick="criptografar()">
+                    🔒 Criptografar
+                </button>
+                <button class="btn-descripto" onclick="descriptografar()">
+                    🔓 Descriptografar
+                </button>
+                <button class="btn-limpar" onclick="limpar()">
+                    🧹 Limpar
+                </button>
+            </div>
+        </div>
+        
+        <div class="result">
+            <h3>📄 Resultado:</h3>
+            <div id="resultado">Aqui aparecerá o texto convertido...</div>
+        </div>
+        
+        <div class="info">
+            <strong>💡 Dica:</strong> Para textos em árabe, use a opção "Descriptografar". Para textos em latim, use "Criptografar".
+        </div>
+        
+        <div class="cifra-table">
+            <h3>📊 Tabela da Cifra:</h3>
+            <table>
+                <tr>
+                    <th>Letra Latina</th>
+                    <th>Caractere Árabe</th>
+                    <th>Letra Latina</th>
+                    <th>Caractere Árabe</th>
+                </tr>
+                <tr><td>A</td><td>اٰ</td><td>N</td><td>ن</td></tr>
+                <tr><td>B</td><td>ب</td><td>O</td><td>ه</td></tr>
+                <tr><td>C</td><td>چ</td><td>P</td><td>پ</td></tr>
+                <tr><td>D</td><td>ض</td><td>Q</td><td>ق</td></tr>
+                <tr><td>E</td><td>گ</td><td>R</td><td>ر</td></tr>
+                <tr><td>F</td><td>ف</td><td>RR</td><td>رً</td></tr>
+                <tr><td>G</td><td>غ</td><td>S</td><td>س</td></tr>
+                <tr><td>H</td><td>ح</td><td>T</td><td>ط</td></tr>
+                <tr><td>I</td><td>ي</td><td>U</td><td>و</td></tr>
+                <tr><td>J</td><td>ج</td><td>V</td><td>ڤ</td></tr>
+                <tr><td>K</td><td>ك</td><td>X</td><td>ش</td></tr>
+                <tr><td>L</td><td>ل</td><td>Z</td><td>ز</td></tr>
+                <tr><td>M</td><td>م</td><td></td><td></td></tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Dicionário da cifra
+        const cifra = {
+            'A': 'اٰ', 'a': 'اٰ',
+            'B': 'ب', 'b': 'ب',
+            'C': 'چ', 'c': 'چ',
+            'D': 'ض', 'd': 'ض',
+            'E': 'گ', 'e': 'گ',
+            'F': 'ف', 'f': 'ف',
+            'G': 'غ', 'g': 'غ',
+            'H': 'ح', 'h': 'ح',
+            'I': 'ي', 'i': 'ي',
+            'J': 'ج', 'j': 'ج',
+            'K': 'ك', 'k': 'ك',
+            'L': 'ل', 'l': 'ل',
+            'M': 'م', 'm': 'م',
+            'N': 'ن', 'n': 'ن',
+            'O': 'ه', 'o': 'ه',
+            'P': 'پ', 'p': 'پ',
+            'Q': 'ق', 'q': 'ق',
+            'R': 'ر', 'r': 'ر',
+            'RR': 'رً', 'Rr': 'رً', 'rR': 'رً', 'rr': 'رً',
+            'S': 'س', 's': 'س',
+            'T': 'ط', 't': 'ط',
+            'U': 'و', 'u': 'و',
+            'V': 'ڤ', 'v': 'ڤ',
+            'X': 'ش', 'x': 'ش',
+            'Z': 'ز', 'z': 'ز',
+            ' ': ' ', '\n': '\n', '\t': '\t'
+        };
+
+        // Dicionário reverso
+        const cifraReversa = {};
+        for (const [key, value] of Object.entries(cifra)) {
+            if (!cifraReversa[value]) {
+                cifraReversa[value] = key;
+            }
+        }
+
+        function criptografar() {
+            const texto = document.getElementById('textoInput').value;
+            let resultado = '';
+            let i = 0;
+            
+            const textoUpper = texto.toUpperCase();
+            
+            while (i < texto.length) {
+                // Verificar RR
+                if (i + 1 < texto.length) {
+                    const doisChars = textoUpper.substr(i, 2);
+                    if (doisChars === 'RR') {
+                        resultado += cifra['RR'];
+                        i += 2;
+                        continue;
+                    }
+                }
+                
+                const char = texto[i];
+                const charUpper = textoUpper[i];
+                
+                if (cifra[charUpper]) {
+                    // Manter maiúscula/minúscula
+                    if (char === char.toLowerCase()) {
+                        resultado += cifra[char] || cifra[charUpper];
+                    } else {
+                        resultado += cifra[charUpper];
+                    }
+                } else {
+                    resultado += char;
+                }
+                
+                i++;
+            }
+            
+            mostrarResultado(resultado, true);
+        }
+
+        function descriptografar() {
+            const texto = document.getElementById('textoInput').value;
+            let resultado = '';
+            let i = 0;
+            
+            while (i < texto.length) {
+                let encontrado = false;
+                
+                // Tentar encontrar sequências
+                for (let comprimento = 3; comprimento >= 1; comprimento--) {
+                    if (i + comprimento <= texto.length) {
+                        const sequencia = texto.substr(i, comprimento);
+                        if (cifraReversa[sequencia]) {
+                            resultado += cifraReversa[sequencia];
+                            i += comprimento;
+                            encontrado = true;
+                            break;
+                        }
+                    }
+                }
+                
+                if (!encontrado) {
+                    resultado += texto[i];
+                    i++;
+                }
+            }
+            
+            mostrarResultado(resultado, false);
+        }
+
+        function mostrarResultado(texto, isArabic) {
+            const resultadoDiv = document.getElementById('resultado');
+            
+            if (isArabic) {
+                resultadoDiv.innerHTML = `
+                    <div class="arabic-text">${texto}</div>
+                    <div style="margin-top: 10px; color: #666;">
+                        <strong>Texto copiável:</strong><br>
+                        ${texto.replace(/\n/g, '<br>')}
+                    </div>
+                `;
+            } else {
+                resultadoDiv.innerHTML = texto.replace(/\n/g, '<br>');
+            }
+            
+            // Copiar para área de transferência
+            navigator.clipboard.writeText(texto).then(() => {
+                const originalText = resultadoDiv.innerHTML;
+                resultadoDiv.innerHTML += '<div style="color: green; margin-top: 10px;">✅ Copiado para a área de transferência!</div>';
+                
+                setTimeout(() => {
+                    resultadoDiv.innerHTML = originalText;
+                }, 2000);
+            });
+        }
+
+        function limpar() {
+            document.getElementById('textoInput').value = '';
+            document.getElementById('resultado').innerHTML = 'Aqui aparecerá o texto convertido...';
+        }
+
+        // Exemplo inicial
+        document.getElementById('textoInput').value = "Olá! Teste esta cifra incrível!";
+    </script>
+</body>
+</html>
